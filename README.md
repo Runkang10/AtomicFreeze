@@ -6,11 +6,8 @@ If [AtomicCrash](https://modrinth.com/plugin/atomiccrash) is not enough, this on
 </div>
 
 ## How it works
-This plugin will intercept all the packets sent by the player and cancel them, making that like if they have never sent
-those packets and other players will see the player not moving at all.
-
-The best part is while you, as the victim, can see what they're doing, other players can't see you at all. Just like
-being a ghost that can't do anything other than watching others ignoring you.
+This plugin will intercept all the packets sent by the player or getting sent to the player and cancel them, making that
+like if they have never existed and other players will see the player not moving at all.
 
 ## Usage
 The frozen state of the player is only stored in memory. By default, players are automatically unfrozen when they leave
