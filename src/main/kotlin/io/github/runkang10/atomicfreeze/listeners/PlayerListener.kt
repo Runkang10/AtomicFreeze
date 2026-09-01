@@ -4,6 +4,7 @@ import com.github.retrooper.packetevents.event.PacketListenerAbstract
 import com.github.retrooper.packetevents.event.PacketListenerPriority
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.event.PacketSendEvent
+import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import io.github.runkang10.atomicfreeze.configurations.DefaultSettings
 import io.github.runkang10.atomicfreeze.services.PlayerManager
 import io.github.runkang10.compactmono.configuration.LoggedConfiguration
@@ -21,7 +22,7 @@ class PlayerListener(
         if (!preventSettings.sending) return
 
         val event = event ?: return
-        if (!PlayerManager.has(event.user.uuid)) return
+        if (event.packetType != PacketType.Play.Server.KEEP_ALIVE || !PlayerManager.has(event.user.uuid)) return
 
         event.isCancelled = true
     }
@@ -30,7 +31,7 @@ class PlayerListener(
         if (!preventSettings.receiving) return
 
         val event = event ?: return
-        if (!PlayerManager.has(event.user.uuid)) return
+        if (event.packetType != PacketType.Play.Client.KEEP_ALIVE || !PlayerManager.has(event.user.uuid)) return
 
         event.isCancelled = true
     }
