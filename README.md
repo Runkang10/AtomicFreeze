@@ -68,3 +68,10 @@ reload {
   reload-failure = "<red>Failed to reload configurations! Check console for details."
 }
 ```
+
+<br />
+
+## NOTE
+This project uses [PacketEvents](https://github.com/retrooper/packetevents) by **retrooper**, which is licensed under
+the **GNU General Public License v3.0**; therefore, this project is under the same license the library uses.
+See [the LICENSE](LICENSE) file for more information.
