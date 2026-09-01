@@ -1,0 +1,75 @@
+name: Publish
+on:
+  push:
+    branches: [ "**" ]
+    paths: [ "README.md" ]
+  workflow_dispatch:
+    inputs:
+      title:
+        type: string
+        required: true
+      version:
+        type: string
+        required: true
+
+jobs:
+  publish-plugin:
+    name: Publish Plugin
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: gradle
+
+      - name: Build
+        env:
+          TITLE: ${{ inputs.title }}
+          VERSION: ${{ inputs.version }}
+        run: ./gradlew shadowJar
+
+      - name: Publish to Modrinth
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          TITLE: ${{ inputs.title }}
+          VERSION: ${{ inputs.version }}
+        run: ./gradlew modrinth
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ inputs.title }}
+          VERSION: ${{ inputs.version }}
+        run: gh release create "$VERSION" --title "$TITLE" --notes-file CHANGELOGS.md --latest build/libs/AtomicFreeze.jar
+
+  update-description:
+    name: Update Description
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: gradle
+
+      - name: Update description (Modrinth)
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew modrinthSyncBody --no-configuration-cache --no-build-cache
