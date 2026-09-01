@@ -3,7 +3,7 @@ package io.github.runkang10.atomicfreeze.listeners
 import com.github.retrooper.packetevents.event.PacketListenerAbstract
 import com.github.retrooper.packetevents.event.PacketListenerPriority
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
-import com.github.retrooper.packetevents.protocol.packettype.PacketType
+import com.github.retrooper.packetevents.event.PacketSendEvent
 import io.github.runkang10.atomicfreeze.configurations.DefaultSettings
 import io.github.runkang10.atomicfreeze.services.PlayerManager
 import io.github.runkang10.compactmono.configuration.LoggedConfiguration
@@ -13,24 +13,23 @@ import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerListener(
     private val settings: LoggedConfiguration<DefaultSettings>
-) : PacketListenerAbstract(PacketListenerPriority.LOWEST), Listener {
-    private val allowedPackets = setOf(
-        PacketType.Play.Client.CONFIGURATION_ACK,
-        PacketType.Play.Client.KEEP_ALIVE,
-        PacketType.Play.Client.PONG,
-        PacketType.Play.Client.CLICK_WINDOW,
-        PacketType.Play.Client.CLICK_WINDOW_BUTTON,
-        PacketType.Play.Client.WINDOW_CONFIRMATION,
-        PacketType.Play.Client.CLIENT_SETTINGS,
-        PacketType.Play.Client.CLIENT_STATUS,
-        PacketType.Play.Client.CLIENT_TICK_END
-    )
+) : PacketListenerAbstract(PacketListenerPriority.NORMAL), Listener {
+    private val preventSettings get() = settings.get().prevent
 
+
+    override fun onPacketSend(event: PacketSendEvent?) {
+        if (!preventSettings.sending) return
+
+        val event = event ?: return
+        if (!PlayerManager.has(event.user.uuid)) return
+
+        event.isCancelled = true
+    }
 
     override fun onPacketReceive(event: PacketReceiveEvent?) {
+        if (!preventSettings.receiving) return
+
         val event = event ?: return
-        val packetType = event.packetType
-        if (packetType !is PacketType.Play.Client || allowedPackets.contains(packetType)) return
         if (!PlayerManager.has(event.user.uuid)) return
 
         event.isCancelled = true
