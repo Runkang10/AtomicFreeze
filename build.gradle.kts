@@ -6,7 +6,13 @@ plugins {
     alias(libs.plugins.shadow)
     alias(libs.plugins.resourceFactoryPaper)
     alias(libs.plugins.runPaper)
+    alias(libs.plugins.minotaur)
 }
+
+val modrinthToken: String? = System.getenv("MODRINTH_TOKEN")
+val projectTitle = System.getenv("TITLE") ?: "0.0.0-DEV"
+val projectVersion = System.getenv("VERSION")?.removePrefix("v") ?: "0.0.0-DEV"
+val changeLogs = rootProject.file("CHANGELOGS.md").readText().ifBlank { "_No changelog was specified._" }
 
 repositories {
     gradlePluginPortal()
@@ -31,7 +37,7 @@ dependencies {
 paperPluginYaml {
     name.set(rootProject.name)
     description.set("Ignore players packets to make them look like they're lagging!")
-    version.set("0.0.0-DEV")
+    version.set(projectVersion)
     author.set("Runkang10")
     website.set("https://github.com/Runkang10/AtomicFreeze")
 
@@ -60,5 +66,36 @@ tasks {
         downloadPlugins {
             modrinth("packetevents", "2.13.0+spigot")
         }
+    }
+
+    if (modrinthToken != null) modrinth {
+        token.set(modrinthToken)
+        projectId.set("smiyoJmc")
+
+        versionName.set(projectTitle)
+        versionNumber.set(projectVersion)
+        versionType.set("release")
+        changelog.set(changeLogs)
+        uploadFile.set(shadowJar)
+        gameVersions.addAll(
+            "1.21.4",
+            "1.21.5",
+            "1.21.6",
+            "1.21.7",
+            "1.21.8",
+            "1.21.9",
+            "1.21.10",
+            "1.21.11",
+            "26.1",
+            "26.1.1",
+            "26.1.2",
+            "26.2"
+        )
+        loaders.addAll("paper", "purpur", "folia")
+        dependencies {
+            required.project("packetevents")
+        }
+
+        syncBodyFrom.set(rootProject.file("README.md").readText())
     }
 }
