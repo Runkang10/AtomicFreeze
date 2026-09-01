@@ -1,9 +1,8 @@
 # What's changed
-This is the initial release (first version) of AtomicFreeze 🎉
-
 ## Features
 - Freeze and unfreeze players through commands.
-- Ability to toggle auto-unfreeze on player quit.
+- Auto-unfreeze configuration between on player quit or on server shutdown.
+- Unfreeze players when they're already frozen but offline.
 
 ## Changes
 _No changes were made._
@@ -11,7 +10,7 @@ _No changes were made._
 ## Bug fixes
 _No bugs were found._
 
-<br />
+<hr />
 
 **Issue tracker**: https://github.com/Runkang10/AtomicFreeze/issues <br />
 **Source code**: https://github.com/Runkang10/AtomicFreeze <br />
