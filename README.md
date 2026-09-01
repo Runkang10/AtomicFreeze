@@ -41,14 +41,22 @@ See the **Permissions** section to find the required permission for each command
 | `atomicfreeze.exempt.<number>`     | Protects the player from being frozen. A player can only be frozen by someone with a higher exemption number than their own or if the command is executed by console. | FALSE   |
 
 ## Configurations
-### settings.conf
+`settings.conf`
 ```hocon
 # DO NOT TOUCH THIS!
 version = 1
+# Toggle what should the plugin prevent.
+# DO NOT TOGGLE FALSE ON BOTH OR THE PLUGIN WILL DO NOTHING!
+prevent {
+  # Stop SENDING packets TO the players.
+  sending = true
+  # Stop RECEIVING packets FROM the players.
+  receiving = true
+}
 # Automatically unfreeze players when they leave the server.
 unfreeze-on-quit = true
 ```
-### translations.conf
+`translations.conf`
 ```hocon
 # DO NOT CHANGE THIS!
 version = 1
