@@ -47,7 +47,7 @@ paperPluginYaml {
     foliaSupported.set(true)
     load.set(BukkitPluginYaml.PluginLoadOrder.STARTUP)
     dependencies {
-        server("packetevents", PaperPluginYaml.Load.BEFORE, required = false, joinClasspath = true)
+        server("packetevents", PaperPluginYaml.Load.BEFORE, required = true, joinClasspath = true)
     }
 }
 
