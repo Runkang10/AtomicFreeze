@@ -1,8 +1,9 @@
 # What's changed
 ## Features
 - Freeze and unfreeze players through commands.
-- Auto-unfreeze configuration between on player quit or on server shutdown.
 - Unfreeze players when they're already frozen but offline.
+- Added prevent sending/receiving settings.
+- Added auto-unfreeze settings between on player quit or on server shutdown.
 
 ## Changes
 _No changes were made._
