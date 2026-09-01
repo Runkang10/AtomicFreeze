@@ -22,7 +22,9 @@ class PlayerListener(
         if (!preventSettings.sending) return
 
         val event = event ?: return
-        if (event.packetType == PacketType.Play.Server.KEEP_ALIVE || !PlayerManager.has(event.user.uuid)) return
+        if (event.packetType == PacketType.Play.Server.KEEP_ALIVE ||
+            !PlayerManager.has(event.user.uuid ?: return)
+        ) return
 
         event.isCancelled = true
     }
@@ -31,7 +33,9 @@ class PlayerListener(
         if (!preventSettings.receiving) return
 
         val event = event ?: return
-        if (event.packetType == PacketType.Play.Client.KEEP_ALIVE || !PlayerManager.has(event.user.uuid)) return
+        if (event.packetType == PacketType.Play.Client.KEEP_ALIVE ||
+            !PlayerManager.has(event.user.uuid ?: return)
+        ) return
 
         event.isCancelled = true
     }
