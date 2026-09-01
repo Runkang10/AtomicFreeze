@@ -12,13 +12,12 @@ import org.spongepowered.configurate.ConfigurationOptions
 
 @Suppress("unused", "UnstableApiUsage")
 internal class AtomicFreezeBootstrap : PluginBootstrap {
-    private lateinit var logger: ColoredLogger
     private lateinit var settings: LoggedConfiguration<DefaultSettings>
     private lateinit var translations: LoggedConfiguration<DefaultTranslations>
 
 
     override fun bootstrap(context: BootstrapContext) {
-        logger = ColoredLogger(context.logger)
+        val logger = ColoredLogger(context.logger)
 
         val pluginFolder = context.dataDirectory.toFile()
         settings = LoggedConfiguration(
@@ -43,5 +42,5 @@ internal class AtomicFreezeBootstrap : PluginBootstrap {
         PrefixedSender.prefix = translations.get().prefix
     }
 
-    override fun createPlugin(context: PluginProviderContext) = AtomicFreeze(logger, settings, translations)
+    override fun createPlugin(context: PluginProviderContext) = AtomicFreeze(settings, translations)
 }
