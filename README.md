@@ -1,7 +1,7 @@
 <div align="center">
 
 # AtomicFreeze
-If [AtomicCrash](https://modrinth.com/plugin/atomiccrash) is not enough, this one will definitely piss players off :p
+All it takes is one command to make the player think it's lagging.
 
 </div>
 
