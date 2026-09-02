@@ -5,7 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment
 
 @ConfigSerializable
 data class DefaultSettings(
-    @Comment("DO NOT TOUCH THIS!")
+    @Comment("DO NOT CHANGE THIS!")
     val version: Int = VERSION,
     @Comment("Toggle what should the plugin prevent.\nDO NOT TOGGLE FALSE ON BOTH OR THE PLUGIN WILL DO NOTHING!")
     val prevent: PreventSettings = PreventSettings(),
