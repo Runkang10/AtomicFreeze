@@ -19,15 +19,15 @@ object Permissions {
     private const val EXEMPT_PREFIX = "$PREFIX.exempt"
 
 
-    val FREEZE = PermissionNode("$COMMAND_PREFIX.freeze", PermissionDefault.OP)
-    val UNFREEZE = PermissionNode("$COMMAND_PREFIX.unfreeze", PermissionDefault.OP)
+    val FREEZE = "$COMMAND_PREFIX.freeze" to PermissionDefault.OP
+    val UNFREEZE = "$COMMAND_PREFIX.unfreeze" to PermissionDefault.OP
 
     object Core {
         private const val CORE_COMMAND_PREFIX = "$COMMAND_PREFIX.core"
 
 
-        val COMMAND = PermissionNode(CORE_COMMAND_PREFIX, PermissionDefault.OP)
-        val RELOAD = PermissionNode("$CORE_COMMAND_PREFIX.reload", PermissionDefault.OP)
+        val COMMAND = CORE_COMMAND_PREFIX to PermissionDefault.OP
+        val RELOAD = "$CORE_COMMAND_PREFIX.reload" to PermissionDefault.OP
     }
 
     fun register() {
@@ -56,4 +56,6 @@ object Permissions {
         val additionalWeight = if (isOp) 1 else 0
         return weight.coerceAtMost(Int.MAX_VALUE - 2) + additionalWeight
     }
+
+    private infix fun String.to(default: PermissionDefault) = PermissionNode(this, default)
 }
